@@ -1,0 +1,16 @@
+body {
+font-size: 12 pt;
+font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+color: black;
+line-height: 14pt;
+padding-left: 5 pt;
+padding-right: 5 pt;
+padding-top: 5 pt;
+}
+
+h1 {
+	font: 18pt Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	font-height: 20pt;
+	color: blue;
+}
