@@ -1,81 +1,70 @@
-console.log(Portland High School Graduation Rate.);
-High Schools: {
-	schools: {
-		2015_Class_Size:98,
-		Percent_On_Time_Grads:13,
-		Number_of_Dropouts:40,
-		School_Name:'Alliance'
-	},
-	{
-		2015_Class_Size:190,
-		Percent_On_Time_Grads:88,
-		Number_of_Dropouts:12,
-		School_Name:'Benson'		
-	},
-	{
-		2015_Class_Size:384,
-		Percent_On_Time_Grads:85,
-		Number_of_Dropouts:36,
-		School_Name:'Cleveland'		
-	},
-	{
-		2015_Class_Size:413,
-		Percent_On_Time_Grads:88,
-		Number_of_Dropouts:32,
-		School_Name:'Franklin'		
-	},	
-	{
-		2015_Class_Size:387,
-		Percent_On_Time_Grads:89,
-		Number_of_Dropouts:21,
-		School_Name:'Grant'		
-	},	
-	{
-		2015_Class_Size:128,
-		Percent_On_Time_Grads:80,
-		Number_of_Dropouts:13,
-		School_Name:'Jefferson'		
-	},
-	{
-		2015_Class_Size:98,
-		Percent_On_Time_Grads:26,
-		Number_of_Dropouts:53,
-		School_Name:'Leadership & Entrepreneurship Public Charter'		
-	},	
-	{
-		2015_Class_Size:383,
-		Percent_On_Time_Grads:93,
-		Number_of_Dropouts:17,
-		School_Name:'Lincoln'		
-	},
-	{
-		2015_Class_Size:263,
-		Percent_On_Time_Grads:74,
-		Number_of_Dropouts:41,
-		School_Name:'Madison'		
-	},	
-	{
-		2015_Class_Size:32,
-		Percent_On_Time_Grads:72,
-		Number_of_Dropouts:5,
-		School_Name:'Metropolitan Learning Center'		
-	},	
-	{
-		2015_Class_Size:240,
-		Percent_On_Time_Grads:62,
-		Number_of_Dropouts:52,
-		School_Name:'Roosevelt'		
-	},		
-		{
-		2015_Class_Size:15,
-		Percent_On_Time_Grads:40,
-		Number_of_Dropouts:4,
-		School_Name:'Trillium'		
-	},	
-	{
-		2015_Class_Size:301,
-		Percent_On_Time_Grads:91,
-		Number_of_Dropouts:25,
-		School_Name:'Wilson'		
-	}	
-}
+var dataset = [[5, 20], [480, 90], [250, 50], [100, 33], [330, 95], [410, 12], [475, 44], [25, 67], [85, 21], [220, 88]];
+debugger
+var mappedData = dataset.map(function (item) {
+  return {
+    x: item[0],
+    y: item[1]
+  };
+}); // using underscore for random data for now
+
+var margin = {top: 20, right: 20, bottom: 60, left: 40};
+
+var width = 600 - margin.left - margin.right;
+var height = 400 - margin.top - margin.bottom;
+
+var svg = d3.select('#scatterChart').append('svg')
+  .attr('width', width + margin.left + margin.right)
+  .attr('height', height + margin.top + margin.bottom)
+  .append('g')
+  .attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')'); // transform the x,y value with translate
+
+var yScale = d3.scale.linear()
+  .domain([0, d3.max(mappedData, function(data) {
+    return data.y;
+  })])
+  .range([height, 0]);
+
+var xScale = d3.scale.linear()
+  .domain([0, 100])
+  .range([0, width]);
+
+var xAxis = d3.svg.axis()
+    .scale(xScale)
+    .orient('bottom')
+    .ticks(10)
+    .innerTickSize(10)
+    .outerTickSize(10)
+    .tickPadding(10);
+
+svg.append('g')
+  .attr('class', 'x axis')
+  .attr('transform', 'translate(0, '+ (height + 10) + ')') // moved to height + 10 pixels
+  .call(xAxis);
+
+  var yAxis = d3.svg.axis()
+  .scale(yScale)
+  .orient('left')
+  .ticks(5)
+  .innerTickSize(10)
+  .outerTickSize(2)
+  .tickPadding(10);
+
+  svg.append('g')
+    .attr('class', 'y axis')
+    .attr('transform', 'translate(0, '+ 10 + ')') // moved to height + 10 pixels
+    .call(yAxis);
+
+svg.selectAll('circle')
+  .data(mappedData)
+  .enter()
+  .append('circle') // creating circles
+  .attr('class', 'bubble')
+  .attr('cx', function(data) { // determining the center point x value
+    return xScale(data.x);
+  })
+  .attr('cy', function(data) { // determining the center point y value
+    return yScale(data.y);
+  })
+  .attr('r', function(data) { // determining the radius of the circle
+    return data.radius;
+  });
