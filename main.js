@@ -5,7 +5,7 @@ var mappedData = dataset.map(function (item) {
     x: item[0],
     y: item[1]
   };
-}); // using underscore for random data for now
+}); 
 
 var margin = {top: 20, right: 20, bottom: 60, left: 40};
 
